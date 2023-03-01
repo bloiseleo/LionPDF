@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'discord.bot.lionbot'
 version '1.0-SNAPSHOT'
+
+mainClassName = 'discord.bot.lionbot.Main'
 
 repositories {
     mavenCentral()
