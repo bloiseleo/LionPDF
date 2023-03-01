@@ -1,8 +1,6 @@
-<h1 style="border-bottom: none" align="center">
-    <img
+<img
      width="200px"
      src="./assets/logo_lionbot.svg">
-</h1>
 
 # Introdução
 O LionBOT é um bot que roda sobre a plataforma Discord pensado para facilitar a troca de informações entre diversos usuários que desejam compartilhar conhecimento. Com esse bot, você pode acessar PDFs e compartilhar PDFs com qualquer usuário que tenha contato com esse BOT em um servidor ou chat pessoal independente de servidor.
