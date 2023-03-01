@@ -1,0 +1,7 @@
+version: '3'
+services:
+  bot:
+    build: .
+    volumes:
+      - .:/app
+    entrypoint: /app/bin/start_dev.sh
