@@ -19,3 +19,18 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    exclude("META-INF/*.RSA", "META-INF/*.DSA", "META-INF/*.SF")
+
+    manifest {
+        attributes "Main-Class": "discord.bot.lionbot.Main"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
