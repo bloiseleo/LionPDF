@@ -5,25 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="0.0.1 - PDFs are downloaded and saved to file system. User cannot retrieve them.">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/CommandRouter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/builders/CommandBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/DiscordCommandHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/PingCommandHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +51,11 @@
     &quot;ToolWindowBuild.ShowToolbar&quot;: &quot;false&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\leona\IdeaProjects\LionBot\" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="LionBot [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -100,6 +93,14 @@
       <option name="presentableId" value="Default" />
       <updated>1677463610404</updated>
     </task>
+    <task id="LOCAL-00001" summary="0.0.1 - PDFs are downloaded and saved to file system. User cannot retrieve them.">
+      <created>1677607689812</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1677607689812</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

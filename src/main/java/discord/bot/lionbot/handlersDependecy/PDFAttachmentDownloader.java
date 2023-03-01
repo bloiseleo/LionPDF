@@ -1,5 +1,6 @@
 package discord.bot.lionbot.handlersDependecy;
 
+import discord.bot.lionbot.Main;
 import org.javacord.api.entity.Attachment;
 
 import java.io.*;
@@ -17,6 +18,7 @@ public class PDFAttachmentDownloader {
             );
             byte[] chunk = createChunkBasedOnBus(bus);
             int bytesReaded = bus.read(chunk);
+            Main.getLogger().finest("Download loop initiated");
             while (bytesReaded != -1) {
                 if(bytesReaded != 0) {
                     bos.write(chunk);
@@ -24,6 +26,7 @@ public class PDFAttachmentDownloader {
                 chunk = createChunkBasedOnBus(bus);
                 bytesReaded = bus.read(chunk);
             }
+            Main.getLogger().finest("Download loop finished");
             bos.close();
             result = true;
         } catch (IOException exception) {

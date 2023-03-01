@@ -1,13 +1,16 @@
 package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.Main;
+import discord.bot.lionbot.embedMessages.UpdateAboutFileUploadEmbedMessage;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
 import org.javacord.api.entity.Attachment;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.Interaction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
 
+import java.io.File;
 import java.util.Optional;
 
 public class UploadCommandHandler extends DiscordCommandHandler {
@@ -52,7 +55,10 @@ public class UploadCommandHandler extends DiscordCommandHandler {
                 user.sendMessage("Your file was not uploaded due an error. Contact the ADMIN");
                 return;
             }
-            user.sendMessage("Your file was uploaded successfully");
+            user.sendMessage(
+                    new UpdateAboutFileUploadEmbedMessage("Success", "Your file of name " + pdf.getFileName() + " was uploaded!")
+                            .get()
+            );
         });
 
         downloadThread.start();

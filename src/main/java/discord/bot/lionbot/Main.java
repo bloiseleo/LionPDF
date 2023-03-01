@@ -5,11 +5,19 @@ import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageSet;
+import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.interaction.SlashCommandOption;
+
+import javax.swing.text.html.Option;
+import java.awt.*;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.*;
 
 public class Main {
@@ -76,11 +84,12 @@ public class Main {
     }
 
     private static DiscordApi configureBot() {
-        String token = "MTA3OTU4MDY3OTQzMzYyOTc2Ng.G2M2R6.z-WCkjfaAgu3iLAM8Nz_3NRMXz5msckyCAVpTk";
-        logger.finest("Creating bot with token: " + token);
+        Dotenv dotenv = Dotenv.load();
+        logger.finest("Creating bot with token: " + dotenv.get("DISCORD_KEY"));
         return new DiscordApiBuilder()
-                .setToken(token)
+                .setToken(dotenv.get("DISCORD_KEY"))
                 .addIntents(Intent.MESSAGE_CONTENT)
+                .addIntents(Intent.DIRECT_MESSAGES)
                 .login()
                 .join();
     }
