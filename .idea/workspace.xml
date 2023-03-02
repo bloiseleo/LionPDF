@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="Adding the folder .idea">
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/PdfIsTooHeavyException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

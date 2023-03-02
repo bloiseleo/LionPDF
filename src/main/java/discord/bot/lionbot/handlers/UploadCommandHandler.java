@@ -7,14 +7,10 @@ import discord.bot.lionbot.errors.UploadPDFException;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import org.javacord.api.entity.Attachment;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.Interaction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
-
-import java.io.File;
-import java.util.Arrays;
 import java.util.Optional;
 
 public class UploadCommandHandler extends DiscordCommandHandler {

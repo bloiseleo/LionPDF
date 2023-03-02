@@ -1,7 +1,5 @@
 package discord.bot.lionbot.errors;
 
-import java.util.Arrays;
-
 /**
  * This the base that every Error related to PDF while being uploaded must extends.
  * It's compile time checked, because the developer needs to do something.
