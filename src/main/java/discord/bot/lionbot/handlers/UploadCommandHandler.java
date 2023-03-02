@@ -2,7 +2,10 @@ package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.Main;
 import discord.bot.lionbot.embedMessages.UpdateAboutFileUploadEmbedMessage;
+import discord.bot.lionbot.errors.DownloadFailedException;
+import discord.bot.lionbot.errors.UploadPDFException;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import org.javacord.api.entity.Attachment;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
@@ -11,14 +14,17 @@ import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.interaction.SlashCommandInteractionOption;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class UploadCommandHandler extends DiscordCommandHandler {
 
     private final PDFAttachmentDownloader pdfAttachmentDownloader;
+    private final PDFValidator pdfValidator;
 
-    public UploadCommandHandler(PDFAttachmentDownloader pdfAttachmentDownloader) {
+    public UploadCommandHandler(PDFAttachmentDownloader pdfAttachmentDownloader, PDFValidator pdfValidator) {
         this.pdfAttachmentDownloader = pdfAttachmentDownloader;
+        this.pdfValidator = pdfValidator;
     }
     @Override
     public void handle(Interaction interaction) throws IllegalAccessException {
@@ -42,25 +48,32 @@ public class UploadCommandHandler extends DiscordCommandHandler {
             return;
         }
         Attachment pdf = optionalPdf.get();
-        Main.getLogger().info("Pdf found: " + pdf.getFileName());
-        commandInteraction.createImmediateResponder().append("Your file is being uploaded to our servers. We will notify you when it's completed")
+        commandInteraction.createImmediateResponder().append("Your file is being validated and uploaded to our servers. We will notify you when it's completed")
                 .respond()
                 .join();
         Main.getLogger().info("Client anwser completed");
-        Main.getLogger().info("Creating thread to download file");
-        Thread downloadThread = new Thread(() -> {
-            Main.getLogger().info("THREAD TO DOWNLOAD FILE STARTED: " + pdf.getFileName() + " will be downloaded");
+        Main.getLogger().info("Creating thread to treat and download file");
+        Thread treatAndDownloadPDF = new Thread(() -> {
             User user = commandInteraction.getUser();
-            if(!this.pdfAttachmentDownloader.download(pdf)) {
-                user.sendMessage("Your file was not uploaded due an error. Contact the ADMIN");
-                return;
+            try {
+                this.pdfValidator.validate(pdf);
+                this.pdfAttachmentDownloader.download(pdf);
+                user.sendMessage(
+                        new UpdateAboutFileUploadEmbedMessage("File Upload Status :)", "The upload of file " + pdf.getFileName() + " was a SUCCESS! NAILED IT!")
+                                .get()
+                );
+            } catch (DownloadFailedException | UploadPDFException uploadOrDownloadException) {
+                Main.getLogger().warning(uploadOrDownloadException.getMessage());
+                user.sendMessage(
+                        new UpdateAboutFileUploadEmbedMessage(
+                                "File Upload Status :(",
+                                uploadOrDownloadException.getUserFriendlyMessage())
+                                .get()
+                ).join();
             }
-            user.sendMessage(
-                    new UpdateAboutFileUploadEmbedMessage("Success", "Your file of name " + pdf.getFileName() + " was uploaded!")
-                            .get()
-            );
+            Main.getLogger().info("Thread finished");
         });
-
-        downloadThread.start();
+        Main.getLogger().info("Thread started!");
+        treatAndDownloadPDF.start();
     }
 }

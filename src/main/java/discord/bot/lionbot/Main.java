@@ -5,6 +5,7 @@ import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -66,7 +67,8 @@ public class Main {
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFAttachmentDownloader()
+                        new PDFAttachmentDownloader(),
+                        new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
