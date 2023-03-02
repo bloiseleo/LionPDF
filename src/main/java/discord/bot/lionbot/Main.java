@@ -5,19 +5,13 @@ import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.MessageSet;
-import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.interaction.SlashCommandOption;
-
-import javax.swing.text.html.Option;
-import java.awt.*;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.logging.*;
 
 public class Main {
@@ -66,7 +60,8 @@ public class Main {
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFAttachmentDownloader()
+                        new PDFAttachmentDownloader(),
+                        new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
