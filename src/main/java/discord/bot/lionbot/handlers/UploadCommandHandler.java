@@ -2,9 +2,8 @@ package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.Main;
 import discord.bot.lionbot.embedMessages.UpdateAboutFileUploadEmbedMessage;
-import discord.bot.lionbot.errors.DownloadFailedException;
 import discord.bot.lionbot.errors.UploadPDFException;
-import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import discord.bot.lionbot.handlersDependecy.PDFAttachmentUploader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import org.javacord.api.entity.Attachment;
 import org.javacord.api.entity.user.User;
@@ -15,11 +14,11 @@ import java.util.Optional;
 
 public class UploadCommandHandler extends DiscordCommandHandler {
 
-    private final PDFAttachmentDownloader pdfAttachmentDownloader;
+    private final PDFAttachmentUploader uploader;
     private final PDFValidator pdfValidator;
 
-    public UploadCommandHandler(PDFAttachmentDownloader pdfAttachmentDownloader, PDFValidator pdfValidator) {
-        this.pdfAttachmentDownloader = pdfAttachmentDownloader;
+    public UploadCommandHandler( PDFAttachmentUploader uploader, PDFValidator pdfValidator) {
+        this.uploader = uploader;
         this.pdfValidator = pdfValidator;
     }
     @Override
@@ -49,16 +48,16 @@ public class UploadCommandHandler extends DiscordCommandHandler {
                 .join();
         Main.getLogger().info("Client anwser completed");
         Main.getLogger().info("Creating thread to treat and download file");
-        Thread treatAndDownloadPDF = new Thread(() -> {
+        Thread treatAndUploadPDF = new Thread(() -> {
             User user = commandInteraction.getUser();
             try {
                 this.pdfValidator.validate(pdf);
-                this.pdfAttachmentDownloader.download(pdf);
+                this.uploader.upload(pdf);
                 user.sendMessage(
                         new UpdateAboutFileUploadEmbedMessage("File Upload Status :)", "The upload of file " + pdf.getFileName() + " was a SUCCESS! NAILED IT!")
                                 .get()
                 );
-            } catch (DownloadFailedException | UploadPDFException uploadOrDownloadException) {
+            } catch (UploadPDFException uploadOrDownloadException) {
                 Main.getLogger().warning(uploadOrDownloadException.getMessage());
                 user.sendMessage(
                         new UpdateAboutFileUploadEmbedMessage(
@@ -70,6 +69,6 @@ public class UploadCommandHandler extends DiscordCommandHandler {
             Main.getLogger().info("Thread finished");
         });
         Main.getLogger().info("Thread started!");
-        treatAndDownloadPDF.start();
+        treatAndUploadPDF.start();
     }
 }
