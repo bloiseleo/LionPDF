@@ -1,6 +1,7 @@
 package discord.bot.lionbot.handlersDependecy;
 
 import discord.bot.lionbot.Main;
+import discord.bot.lionbot.errors.DownloadFailedException;
 import org.javacord.api.entity.Attachment;
 
 import java.io.*;
@@ -10,8 +11,7 @@ public class PDFAttachmentDownloader {
      * 1MB
      */
     private final int chunkSize = 1024;
-    public boolean download(Attachment pdf) {
-        boolean result = false;
+    public void download(Attachment pdf) throws DownloadFailedException {
         try(  BufferedInputStream bus = new BufferedInputStream(pdf.asInputStream()) ) {
             BufferedOutputStream bos = new BufferedOutputStream(
                     new FileOutputStream(pdf.getFileName())
@@ -28,11 +28,9 @@ public class PDFAttachmentDownloader {
             }
             Main.getLogger().finest("Download loop finished");
             bos.close();
-            result = true;
         } catch (IOException exception) {
-            exception.printStackTrace();
+            throw new DownloadFailedException(exception);
         }
-        return result;
     }
 
     private byte[] createChunkBasedOnBus(InputStream bus) throws IOException {

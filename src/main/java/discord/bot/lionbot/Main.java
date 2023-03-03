@@ -1,23 +1,18 @@
 package discord.bot.lionbot;
 
 import discord.bot.lionbot.builders.CommandBuilder;
+import discord.bot.lionbot.dropbox.DropboxAPI;
 import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
-import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
+import discord.bot.lionbot.handlersDependecy.PDFUploaderDropbox;
+import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
-import org.javacord.api.entity.message.Message;
-import org.javacord.api.entity.message.MessageSet;
-import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.interaction.SlashCommandOption;
-
-import javax.swing.text.html.Option;
-import java.awt.*;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.logging.*;
 
 public class Main {
@@ -53,8 +48,8 @@ public class Main {
         configureLogger();
 
         DiscordApi discordApi = configureBot();
+        DropboxAPI dropboxAPI = configureDropboxAPI();
         logger.finest("Bot created successfully");
-
         CommandRouter commandRouter = new CommandRouter();
         CommandBuilder commandBuilder = new CommandBuilder(commandRouter);
         logger.finest("Command Router and Builder created to easily add features to the bot");
@@ -66,7 +61,8 @@ public class Main {
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFAttachmentDownloader()
+                        new PDFUploaderDropbox(dropboxAPI),
+                        new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
@@ -92,5 +88,11 @@ public class Main {
                 .addIntents(Intent.DIRECT_MESSAGES)
                 .login()
                 .join();
+    }
+
+    private static DropboxAPI configureDropboxAPI() {
+        Dotenv dotenv = Dotenv.load();
+        logger.finest("Creating dropboxAPI with token: " + dotenv.get("DROPBOX_KEY"));
+        return new DropboxAPI(dotenv.get("DROPBOX_KEY"));
     }
 }
