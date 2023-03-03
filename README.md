@@ -43,3 +43,7 @@ Depois disso, basta subir a sua aplicação utilizando docker-compose com esse s
 docker-compose -f ./docker-compose.yml -p lionbot
 ```
 
+### Convide o bot para o seu servidor!
+
+Atualmente, na data que esse README está sendo atulizado, não há a funcionalidade de recuperação de arquivos, mas, caso já queira ter o bot em seu servidor por algum motivo qualquer, aqui está o [link](https://discord.com/api/oauth2/authorize?client_id=1080289214794580028&permissions=2147519488&scope=bot) para convite.
+
