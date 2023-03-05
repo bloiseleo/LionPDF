@@ -1,11 +1,10 @@
 package discord.bot.lionbot;
 
 import discord.bot.lionbot.builders.CommandBuilder;
-import discord.bot.lionbot.dropbox.DropboxAPI;
 import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
-import discord.bot.lionbot.handlersDependecy.PDFUploaderDropbox;
+import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.javacord.api.DiscordApi;
@@ -48,7 +47,6 @@ public class Main {
         configureLogger();
 
         DiscordApi discordApi = configureBot();
-        DropboxAPI dropboxAPI = configureDropboxAPI();
         logger.finest("Bot created successfully");
         CommandRouter commandRouter = new CommandRouter();
         CommandBuilder commandBuilder = new CommandBuilder(commandRouter);
@@ -61,7 +59,7 @@ public class Main {
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFUploaderDropbox(dropboxAPI),
+                        new PDFAttachmentDownloader(),
                         new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
@@ -90,9 +88,4 @@ public class Main {
                 .join();
     }
 
-    private static DropboxAPI configureDropboxAPI() {
-        Dotenv dotenv = Dotenv.load();
-        logger.finest("Creating dropboxAPI with token: " + dotenv.get("DROPBOX_KEY"));
-        return new DropboxAPI(dotenv.get("DROPBOX_KEY"));
-    }
 }

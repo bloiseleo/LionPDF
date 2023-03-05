@@ -7,6 +7,14 @@ O LionBOT é um bot que roda sobre a plataforma Discord pensado para facilitar a
 
 Através dele, um usuário que esteja em um servidor completamente aleatório pode fazer o upload de um documento PDF deixando-o, dessa forma, disponível para quem quiser fazer o download desse documento. O melhor de tudo é: o usuário que fez o Upload não precisa ter contato NENHUM com o usuário que fará a obtenção desses arquivos.
 
+## Tecnologias Utilizadas
+
+- Discord (Plataforma Alvo).
+- Javacord (Biblioteca).
+- Java (Linguagem).
+- Dropbox SDK (Biblioteca).
+- Fly.io (Deploy e Ambiente de Produção).
+
 ## Montando o Ambiente DEV
 
 Esse ambiente é necessário para colaborar com o desenvolvimento e conseguir fazer os testes na sua própria máquina. Caso o seu intuíto seja ver funcionando, você irá precisar preencher as variáveis de ambiente com as suas informações e, também, o Docker.
@@ -34,4 +42,8 @@ Depois disso, basta subir a sua aplicação utilizando docker-compose com esse s
 ```bash
 docker-compose -f ./docker-compose.yml -p lionbot
 ```
+
+### Convide o bot para o seu servidor!
+
+Atualmente, na data que esse README está sendo atulizado, não há a funcionalidade de recuperação de arquivos, mas, caso já queira ter o bot em seu servidor por algum motivo qualquer, aqui está o [link](https://discord.com/api/oauth2/authorize?client_id=1080289214794580028&permissions=2147519488&scope=bot) para convite.
 
