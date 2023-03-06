@@ -1,5 +1,7 @@
 package discord.bot.lionbot.errors;
 
+import discord.bot.lionbot.contracts.HasUserFriendlyMessage;
+
 import java.io.IOException;
 
 public class DownloadFailedException extends IOException implements HasUserFriendlyMessage {

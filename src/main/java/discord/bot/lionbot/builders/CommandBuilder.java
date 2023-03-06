@@ -55,8 +55,9 @@ public class CommandBuilder {
         return command;
     }
 
-    public void buildMessageComponentHandler(String name, DiscordCommandHandler commandHandler) {
-        router.reactToMessageComponentOf(name, commandHandler);
+    public void buildMessageComponentHandler() {
+        router.reactToMessageComponentOf(commandName, handler);
+        resetBuilder();
     }
 
     private void resetBuilder() {

@@ -1,6 +1,7 @@
 package discord.bot.lionbot;
 
 import discord.bot.lionbot.builders.CommandBuilder;
+import discord.bot.lionbot.constants.AllMessagesComponents;
 import discord.bot.lionbot.daos.MetadataDAO;
 import discord.bot.lionbot.database.Database;
 import discord.bot.lionbot.handlers.*;
@@ -19,6 +20,23 @@ public class Main {
 
     public static Logger getLogger() {
         return logger;
+    }
+
+    private static Database configureDatabase() {
+        Database database =  new Database();
+        database.connect();
+        Main.getLogger().finest("Database connected");
+        return database;
+    }
+    private static DiscordApi configureBot() {
+        Dotenv dotenv = Dotenv.load();
+        logger.finest("Creating bot with token: " + dotenv.get("DISCORD_KEY"));
+        return new DiscordApiBuilder()
+                .setToken(dotenv.get("DISCORD_KEY"))
+                .addIntents(Intent.MESSAGE_CONTENT)
+                .addIntents(Intent.DIRECT_MESSAGES)
+                .login()
+                .join();
     }
 
     /**
@@ -43,7 +61,6 @@ public class Main {
         }
     }
     public static void main(String[] args) {
-
         configureLogger();
         Database database = configureDatabase();
         MetadataDAO metadataDAO = new MetadataDAO(database);
@@ -52,12 +69,10 @@ public class Main {
         CommandRouter commandRouter = new CommandRouter();
         CommandBuilder commandBuilder = new CommandBuilder(commandRouter);
         logger.finest("Command Router and Builder created to easily add features to the bot");
-
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new PingCommandHandler())
                 .setNameAndDescription("ping", "test if connection and anwser is ok")
                 .buildSlashCommand();
-
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
                         new PDFAttachmentDownloader(metadataDAO),
@@ -66,15 +81,14 @@ public class Main {
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
                 .buildSlashCommand();
-
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new FileCommandHandler(metadataDAO))
                 .setNameAndDescription("files", "See the files uploaded")
                 .buildSlashCommand();
-
         commandBuilder.createGlobalCommandFor(discordApi)
-                        .buildMessageComponentHandler("fileoptions", new FileOptionsMessageHandler(metadataDAO));
-
+                .setNameAndDescription(AllMessagesComponents.FILES_UPLOADED_LIST.name(), null)
+                .setHandler( new FileOptionsMessageHandler(metadataDAO) )
+                .buildMessageComponentHandler();
         discordApi.addSlashCommandCreateListener(event -> {
             DiscordCommandHandler command1 = commandRouter.getHanlder(event.getSlashCommandInteraction().getCommandId());
             try {
@@ -83,7 +97,6 @@ public class Main {
                 throw new RuntimeException(e);
             }
         });
-
         discordApi.addMessageComponentCreateListener(event -> {
             DiscordCommandHandler handler = commandRouter.getHandlerToMessageComponentOf(event.getMessageComponentInteraction().getCustomId());
             try {
@@ -92,24 +105,5 @@ public class Main {
                 throw new RuntimeException(e);
             }
         });
-
     }
-
-    private static Database configureDatabase() {
-        Database database =  new Database();
-        database.connect();
-        Main.getLogger().finest("Database connected");
-        return database;
-    }
-    private static DiscordApi configureBot() {
-        Dotenv dotenv = Dotenv.load();
-        logger.finest("Creating bot with token: " + dotenv.get("DISCORD_KEY"));
-        return new DiscordApiBuilder()
-                .setToken(dotenv.get("DISCORD_KEY"))
-                .addIntents(Intent.MESSAGE_CONTENT)
-                .addIntents(Intent.DIRECT_MESSAGES)
-                .login()
-                .join();
-    }
-
 }

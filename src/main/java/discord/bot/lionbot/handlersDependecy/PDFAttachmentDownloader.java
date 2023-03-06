@@ -1,6 +1,7 @@
 package discord.bot.lionbot.handlersDependecy;
 
 import discord.bot.lionbot.Main;
+import discord.bot.lionbot.contracts.PDFAttachmentUploader;
 import discord.bot.lionbot.daos.MetadataDAO;
 import discord.bot.lionbot.errors.UploadError;
 import discord.bot.lionbot.model.Metadata;
@@ -8,17 +9,13 @@ import org.javacord.api.entity.Attachment;
 
 import java.io.*;
 
-public class PDFAttachmentDownloader implements PDFAttachmentUploader{
+public class PDFAttachmentDownloader implements PDFAttachmentUploader {
 
     private MetadataDAO metadataDAO;
 
     public PDFAttachmentDownloader(MetadataDAO metadataDAO) {
         this.metadataDAO = metadataDAO;
     }
-
-    /**
-     * 1MB
-     */
     private final String pathToSaveFile = new File("").getAbsolutePath();
     private final int chunkSize = 1024;
     public File download(Attachment pdf) throws UploadError {

@@ -1,11 +1,13 @@
 package discord.bot.lionbot.errors;
 
+import discord.bot.lionbot.contracts.HasUserFriendlyMessage;
+
 /**
  * This the base that every Error related to PDF while being uploaded must extends.
  * It's compile time checked, because the developer needs to do something.
  * Most of the times, you will return an error to an User, but YOU DO need to do something.
  */
-public abstract class UploadPDFException extends Exception implements  HasUserFriendlyMessage{
+public abstract class UploadPDFException extends Exception implements HasUserFriendlyMessage {
     public UploadPDFException(String message) {
         super(message);
     }

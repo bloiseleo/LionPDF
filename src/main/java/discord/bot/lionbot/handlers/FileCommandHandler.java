@@ -1,7 +1,10 @@
 package discord.bot.lionbot.handlers;
 
+import discord.bot.lionbot.Main;
+import discord.bot.lionbot.constants.AllMessagesComponents;
 import discord.bot.lionbot.daos.MetadataDAO;
-import discord.bot.lionbot.handlersDependecy.MetadataBookService;
+import discord.bot.lionbot.handlersDependecy.PaginationService;
+import discord.bot.lionbot.model.Metadata;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.ActionRow;
 import org.javacord.api.entity.message.component.SelectMenu;
@@ -9,6 +12,7 @@ import org.javacord.api.entity.message.component.SelectMenuOption;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.interaction.Interaction;
 import org.javacord.api.interaction.SlashCommandInteraction;
+
 import java.util.List;
 
 public class FileCommandHandler extends DiscordCommandHandler{
@@ -26,15 +30,21 @@ public class FileCommandHandler extends DiscordCommandHandler{
         interaction.createImmediateResponder()
                 .append("We are preparing a list with the files uploaded. Please, check your messages")
                 .respond();
-        MetadataBookService metadataBookService = new MetadataBookService(metadataDAO);
         processAsync(() -> {
             User user = commandInteraction.getUser();
-            List<SelectMenuOption> metadadosMenuOption = metadataBookService.getMetadataBookFromOldMetadataBook(null);
+            PaginationService<Metadata> paginationService = new PaginationService<>(metadataDAO, item -> SelectMenuOption.create(
+                    "Name: " + item.getName(),
+                    String.format("%d", item.getId()),
+                    "Click here to download this file"
+            )
+            );
             MessageBuilder messageBuilder = new MessageBuilder();
+            List<SelectMenuOption> options = paginationService.getStartList();
+            Main.getLogger().warning("OPTIONS SIZE: " + options.size());
             messageBuilder
                     .append("Select a file to download or see the next page")
                     .addComponents(
-                            ActionRow.of(SelectMenu.createStringMenu("fileoptions", "Click here to show the options", metadadosMenuOption))
+                            ActionRow.of(SelectMenu.createStringMenu(AllMessagesComponents.FILES_UPLOADED_LIST.name(), "Click here to show the options", options))
                     )
                     .send(user);
         });

@@ -3,7 +3,7 @@ package discord.bot.lionbot.handlers;
 import discord.bot.lionbot.Main;
 import discord.bot.lionbot.embedMessages.UpdateAboutFileUploadEmbedMessage;
 import discord.bot.lionbot.errors.UploadPDFException;
-import discord.bot.lionbot.handlersDependecy.PDFAttachmentUploader;
+import discord.bot.lionbot.contracts.PDFAttachmentUploader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import org.javacord.api.entity.Attachment;
 import org.javacord.api.entity.user.User;

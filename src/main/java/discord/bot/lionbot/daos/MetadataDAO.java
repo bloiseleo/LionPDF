@@ -1,6 +1,7 @@
 package discord.bot.lionbot.daos;
 
 import discord.bot.lionbot.Main;
+import discord.bot.lionbot.contracts.DAO;
 import discord.bot.lionbot.database.Database;
 import discord.bot.lionbot.model.Metadata;
 
@@ -9,9 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
-public class MetadataDAO implements DAO<Metadata>{
+public class MetadataDAO implements DAO<Metadata> {
 
     private final Connection connection;
 
@@ -47,7 +48,7 @@ public class MetadataDAO implements DAO<Metadata>{
     }
 
     @Override
-    public Collection<Metadata> listItemsPaginated(int from, int to) {
+    public List<Metadata> listItemsPaginated(int from, int to) {
         String sql = "SELECT rowid, name, fullpath FROM metadados WHERE rowid BETWEEN ? AND ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, from);

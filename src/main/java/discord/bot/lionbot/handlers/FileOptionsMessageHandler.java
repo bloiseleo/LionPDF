@@ -1,7 +1,7 @@
 package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.daos.MetadataDAO;
-import discord.bot.lionbot.handlersDependecy.MetadataBookService;
+import discord.bot.lionbot.handlersDependecy.PaginationService;
 import discord.bot.lionbot.model.Metadata;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.ActionRow;
@@ -21,8 +21,14 @@ public class FileOptionsMessageHandler extends DiscordCommandHandler{
     }
 
     public void showNextPage(List<SelectMenuOption> possibleFiles, Interaction interaction) {
-        MetadataBookService metadataBookService = new MetadataBookService(metadataDAO);
-        List<SelectMenuOption> newListSelectOption = metadataBookService.getMetadataBookFromListSelectedMenuOption(possibleFiles);
+        PaginationService<Metadata> paginationService = new PaginationService<>(metadataDAO, item ->
+                SelectMenuOption.create(
+                        "Name: " + item.getName(),
+                        String.format("%d", item.getId()),
+                        "Click here to download this file"
+                )
+        );
+        List<SelectMenuOption> newListSelectOption = paginationService.continueOldList(possibleFiles);
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder
                 .append("Select a file to download or see the next page")
