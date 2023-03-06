@@ -1,9 +1,9 @@
 package discord.bot.lionbot;
 
 import discord.bot.lionbot.builders.CommandBuilder;
-import discord.bot.lionbot.handlers.DiscordCommandHandler;
-import discord.bot.lionbot.handlers.PingCommandHandler;
-import discord.bot.lionbot.handlers.UploadCommandHandler;
+import discord.bot.lionbot.daos.MetadataDAO;
+import discord.bot.lionbot.database.Database;
+import discord.bot.lionbot.handlers.*;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -45,7 +45,8 @@ public class Main {
     public static void main(String[] args) {
 
         configureLogger();
-
+        Database database = configureDatabase();
+        MetadataDAO metadataDAO = new MetadataDAO(database);
         DiscordApi discordApi = configureBot();
         logger.finest("Bot created successfully");
         CommandRouter commandRouter = new CommandRouter();
@@ -55,16 +56,24 @@ public class Main {
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new PingCommandHandler())
                 .setNameAndDescription("ping", "test if connection and anwser is ok")
-                .build();
+                .buildSlashCommand();
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFAttachmentDownloader(),
+                        new PDFAttachmentDownloader(metadataDAO),
                         new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
-                .build();
+                .buildSlashCommand();
+
+        commandBuilder.createGlobalCommandFor(discordApi)
+                .setHandler(new FileCommandHandler(metadataDAO))
+                .setNameAndDescription("files", "See the files uploaded")
+                .buildSlashCommand();
+
+        commandBuilder.createGlobalCommandFor(discordApi)
+                        .buildMessageComponentHandler("fileoptions", new FileOptionsMessageHandler(metadataDAO));
 
         discordApi.addSlashCommandCreateListener(event -> {
             DiscordCommandHandler command1 = commandRouter.getHanlder(event.getSlashCommandInteraction().getCommandId());
@@ -75,8 +84,23 @@ public class Main {
             }
         });
 
+        discordApi.addMessageComponentCreateListener(event -> {
+            DiscordCommandHandler handler = commandRouter.getHandlerToMessageComponentOf(event.getMessageComponentInteraction().getCustomId());
+            try {
+                handler.handle(event.getInteraction());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
+    private static Database configureDatabase() {
+        Database database =  new Database();
+        database.connect();
+        Main.getLogger().finest("Database connected");
+        return database;
+    }
     private static DiscordApi configureBot() {
         Dotenv dotenv = Dotenv.load();
         logger.finest("Creating bot with token: " + dotenv.get("DISCORD_KEY"));

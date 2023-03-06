@@ -45,12 +45,23 @@ public class CommandBuilder {
         this.handler = discordCommandHandler;
         return this;
     }
-    public SlashCommand build() {
+    public SlashCommand buildSlashCommand() {
         SlashCommand command = SlashCommand.with(this.commandName, this.commandDescription)
                 .setOptions(this.options)
                 .createGlobal(this.discordApi)
                 .join();
         router.newCommand(command, this.handler);
+        resetBuilder();
         return command;
+    }
+
+    public void buildMessageComponentHandler(String name, DiscordCommandHandler commandHandler) {
+        router.reactToMessageComponentOf(name, commandHandler);
+    }
+
+    private void resetBuilder() {
+        commandName = null;
+        commandDescription = null;
+        options = new ArrayList<>();
     }
 }

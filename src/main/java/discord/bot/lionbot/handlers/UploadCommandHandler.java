@@ -48,7 +48,8 @@ public class UploadCommandHandler extends DiscordCommandHandler {
                 .join();
         Main.getLogger().info("Client anwser completed");
         Main.getLogger().info("Creating thread to treat and download file");
-        Thread treatAndUploadPDF = new Thread(() -> {
+
+        processAsync(() -> {
             User user = commandInteraction.getUser();
             try {
                 this.pdfValidator.validate(pdf);
@@ -68,7 +69,5 @@ public class UploadCommandHandler extends DiscordCommandHandler {
             }
             Main.getLogger().info("Thread finished");
         });
-        Main.getLogger().info("Thread started!");
-        treatAndUploadPDF.start();
     }
 }

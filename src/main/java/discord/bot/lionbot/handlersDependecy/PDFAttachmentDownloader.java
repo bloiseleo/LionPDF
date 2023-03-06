@@ -1,20 +1,31 @@
 package discord.bot.lionbot.handlersDependecy;
 
 import discord.bot.lionbot.Main;
+import discord.bot.lionbot.daos.MetadataDAO;
 import discord.bot.lionbot.errors.UploadError;
+import discord.bot.lionbot.model.Metadata;
 import org.javacord.api.entity.Attachment;
 
 import java.io.*;
 
 public class PDFAttachmentDownloader implements PDFAttachmentUploader{
+
+    private MetadataDAO metadataDAO;
+
+    public PDFAttachmentDownloader(MetadataDAO metadataDAO) {
+        this.metadataDAO = metadataDAO;
+    }
+
     /**
      * 1MB
      */
+    private final String pathToSaveFile = new File("").getAbsolutePath();
     private final int chunkSize = 1024;
-    public void download(Attachment pdf) throws UploadError {
+    public File download(Attachment pdf) throws UploadError {
+        String path = pathToSaveFile + File.separator + pdf.getFileName();
         try(  BufferedInputStream bus = new BufferedInputStream(pdf.asInputStream()) ) {
             BufferedOutputStream bos = new BufferedOutputStream(
-                    new FileOutputStream(pdf.getFileName())
+                    new FileOutputStream(path)
             );
             byte[] chunk = createChunkBasedOnBus(bus);
             int bytesReaded = bus.read(chunk);
@@ -28,6 +39,7 @@ public class PDFAttachmentDownloader implements PDFAttachmentUploader{
             }
             Main.getLogger().finest("Download loop finished");
             bos.close();
+            return new File(path);
         } catch (IOException exception) {
             throw new UploadError(exception);
         }
@@ -41,6 +53,9 @@ public class PDFAttachmentDownloader implements PDFAttachmentUploader{
     }
     @Override
     public void upload(Attachment pdf) throws UploadError {
-        this.download(pdf);
+        File pdfFile = this.download(pdf);
+        this.metadataDAO.save(
+                new Metadata(pdfFile.getAbsolutePath(), pdfFile.getName())
+        );
     }
 }
