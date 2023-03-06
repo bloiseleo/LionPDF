@@ -2,6 +2,8 @@ package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.Main;
 import org.javacord.api.interaction.Interaction;
+import org.javacord.api.interaction.MessageComponentInteraction;
+import org.javacord.api.interaction.SelectMenuInteraction;
 import org.javacord.api.interaction.SlashCommandInteraction;
 
 import java.util.Optional;
@@ -12,10 +14,27 @@ public abstract class DiscordCommandHandler {
         Optional<SlashCommandInteraction> slashCommandInteraction = interaction.asSlashCommandInteraction();
         if(slashCommandInteraction.isEmpty()) {
             if(slashCommandInteraction.isEmpty()) {
-                throw new IllegalAccessException("I should not be used to interactions different tha SlashCommandInteraction");
+                throw new IllegalAccessException("I should not be used to interactions different that SlashCommandInteraction");
             }
         }
         return slashCommandInteraction.get();
+    }
+
+    protected SelectMenuInteraction getSelectMenuInteraction(Interaction interaction) throws IllegalAccessException {
+        MessageComponentInteraction messageComponentInteraction = getMessageComponentInteraction(interaction);
+        Optional<SelectMenuInteraction> optionalSelectMenuInteraction = messageComponentInteraction.asSelectMenuInteraction();
+        if(optionalSelectMenuInteraction.isEmpty()) {
+            throw new IllegalAccessException("I should not be used to interactions different that SelectMenuInteraction");
+        }
+        return optionalSelectMenuInteraction.get();
+    }
+
+    protected MessageComponentInteraction getMessageComponentInteraction(Interaction interaction) throws IllegalAccessException {
+        Optional<MessageComponentInteraction> optionalMessageComponentInteraction = interaction.asMessageComponentInteraction();
+        if(optionalMessageComponentInteraction.isEmpty()) {
+            throw new IllegalAccessException("I should not be used to interactions different that MessageCommnadInteraction");
+        }
+        return optionalMessageComponentInteraction.get();
     }
 
     /**
@@ -28,5 +47,10 @@ public abstract class DiscordCommandHandler {
     @Override
     public String toString() {
         return this.getClass().toString();
+    }
+
+    protected void processAsync(Runnable runnable) {
+        Thread process = new Thread(runnable);
+        process.start();
     }
 }

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class MetadataDAO implements DAO<Metadata>{
@@ -33,7 +34,7 @@ public class MetadataDAO implements DAO<Metadata>{
 
     @Override
     public Metadata get(int id) {
-        String sql = "SELECT rowid, name, fullpath FROM metadados WHERE id = ?";
+        String sql = "SELECT rowid, name, fullpath FROM metadados WHERE rowid = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,7 +47,29 @@ public class MetadataDAO implements DAO<Metadata>{
     }
 
     @Override
-    public Collection<Metadata> listAll() {
-        return null;
+    public Collection<Metadata> listItemsPaginated(int from, int to) {
+        String sql = "SELECT rowid, name, fullpath FROM metadados WHERE rowid BETWEEN ? AND ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, from);
+            preparedStatement.setInt(2, to);
+            System.out.println(preparedStatement.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Metadata> metadados = new ArrayList<>();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("rowid");
+                String name = resultSet.getString("name");
+                String fullpath = resultSet.getString("fullpath");
+                Metadata metadata = new Metadata();
+                metadata.setId(id);
+                metadata.setName(name);
+                metadata.setFullpath(fullpath);
+                metadados.add(metadata);
+            }
+            return metadados;
+        }catch (SQLException exception) {
+            throw new RuntimeException(exception.getMessage());
+        }
     }
+
+
 }

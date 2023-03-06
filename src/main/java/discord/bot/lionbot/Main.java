@@ -3,9 +3,7 @@ package discord.bot.lionbot;
 import discord.bot.lionbot.builders.CommandBuilder;
 import discord.bot.lionbot.daos.MetadataDAO;
 import discord.bot.lionbot.database.Database;
-import discord.bot.lionbot.handlers.DiscordCommandHandler;
-import discord.bot.lionbot.handlers.PingCommandHandler;
-import discord.bot.lionbot.handlers.UploadCommandHandler;
+import discord.bot.lionbot.handlers.*;
 import discord.bot.lionbot.handlersDependecy.PDFAttachmentDownloader;
 import discord.bot.lionbot.handlersDependecy.PDFValidator;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -58,7 +56,7 @@ public class Main {
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new PingCommandHandler())
                 .setNameAndDescription("ping", "test if connection and anwser is ok")
-                .build();
+                .buildSlashCommand();
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
@@ -67,12 +65,29 @@ public class Main {
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
-                .build();
+                .buildSlashCommand();
+
+        commandBuilder.createGlobalCommandFor(discordApi)
+                .setHandler(new FileCommandHandler(metadataDAO))
+                .setNameAndDescription("files", "See the files uploaded")
+                .buildSlashCommand();
+
+        commandBuilder.createGlobalCommandFor(discordApi)
+                        .buildMessageComponentHandler("fileoptions", new FileOptionsMessageHandler(metadataDAO));
 
         discordApi.addSlashCommandCreateListener(event -> {
             DiscordCommandHandler command1 = commandRouter.getHanlder(event.getSlashCommandInteraction().getCommandId());
             try {
                 command1.handle(event.getInteraction());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        discordApi.addMessageComponentCreateListener(event -> {
+            DiscordCommandHandler handler = commandRouter.getHandlerToMessageComponentOf(event.getMessageComponentInteraction().getCustomId());
+            try {
+                handler.handle(event.getInteraction());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

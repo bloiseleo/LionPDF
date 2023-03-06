@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="feat: salvando dados sobre o arquivo num db local">
+    <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="feat: adicionando logs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lionpdfdb.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/lionpdfdb.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/CommandRouter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/CommandRouter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/builders/CommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/builders/CommandBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/MetadataDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/MetadataDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/DiscordCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/DiscordCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678061731831</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: adicionando logs">
+      <created>1678061974446</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1678061974446</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -248,7 +263,8 @@
     <MESSAGE value="Arquivo base de configuração do flyio" />
     <MESSAGE value="Adding the folder .idea" />
     <MESSAGE value="feat: salvando dados sobre o arquivo num db local" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: salvando dados sobre o arquivo num db local" />
+    <MESSAGE value="feat: adicionando logs" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adicionando logs" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LionBot$Main.ic" NAME="Main Coverage Results" MODIFIED="1677561880686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
