@@ -1,5 +1,6 @@
 package discord.bot.lionbot.daos;
 
+import discord.bot.lionbot.Main;
 import discord.bot.lionbot.database.Database;
 import discord.bot.lionbot.model.Metadata;
 
@@ -14,6 +15,7 @@ public class MetadataDAO implements DAO<Metadata>{
     private final Connection connection;
 
     public MetadataDAO(Database database) {
+        Main.getLogger().finest("Creating MetadataDAO");
         connection = database.getConnection();
     }
 

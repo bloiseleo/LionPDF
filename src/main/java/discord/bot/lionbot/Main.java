@@ -13,8 +13,6 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.SlashCommandOption;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -85,6 +83,7 @@ public class Main {
     private static Database configureDatabase() {
         Database database =  new Database();
         database.connect();
+        Main.getLogger().finest("Database connected");
         return database;
     }
     private static DiscordApi configureBot() {
