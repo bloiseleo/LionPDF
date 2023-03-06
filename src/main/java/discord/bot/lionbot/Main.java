@@ -1,6 +1,8 @@
 package discord.bot.lionbot;
 
 import discord.bot.lionbot.builders.CommandBuilder;
+import discord.bot.lionbot.daos.MetadataDAO;
+import discord.bot.lionbot.database.Database;
 import discord.bot.lionbot.handlers.DiscordCommandHandler;
 import discord.bot.lionbot.handlers.PingCommandHandler;
 import discord.bot.lionbot.handlers.UploadCommandHandler;
@@ -11,6 +13,8 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.SlashCommandOption;
+
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -45,7 +49,8 @@ public class Main {
     public static void main(String[] args) {
 
         configureLogger();
-
+        Database database = configureDatabase();
+        MetadataDAO metadataDAO = new MetadataDAO(database);
         DiscordApi discordApi = configureBot();
         logger.finest("Bot created successfully");
         CommandRouter commandRouter = new CommandRouter();
@@ -59,7 +64,7 @@ public class Main {
 
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new UploadCommandHandler(
-                        new PDFAttachmentDownloader(),
+                        new PDFAttachmentDownloader(metadataDAO),
                         new PDFValidator()
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
@@ -77,6 +82,11 @@ public class Main {
 
     }
 
+    private static Database configureDatabase() {
+        Database database =  new Database();
+        database.connect();
+        return database;
+    }
     private static DiscordApi configureBot() {
         Dotenv dotenv = Dotenv.load();
         logger.finest("Creating bot with token: " + dotenv.get("DISCORD_KEY"));
