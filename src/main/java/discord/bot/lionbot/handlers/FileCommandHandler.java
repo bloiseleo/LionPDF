@@ -35,12 +35,17 @@ public class FileCommandHandler extends DiscordCommandHandler{
             PaginationService<Metadata> paginationService = new PaginationService<>(metadataDAO, item -> SelectMenuOption.create(
                     "Name: " + item.getName(),
                     String.format("%d", item.getId()),
-                    "Click here to download this file"
+                    item.getDescription()
             )
             );
             MessageBuilder messageBuilder = new MessageBuilder();
             List<SelectMenuOption> options = paginationService.getStartList();
             Main.getLogger().warning("OPTIONS SIZE: " + options.size());
+            if(options.size() < 1) {
+                messageBuilder.append("There's any files uploaded yet!")
+                        .send(user);
+                return;
+            }
             messageBuilder
                     .append("Select a file to download or see the next page")
                     .addComponents(

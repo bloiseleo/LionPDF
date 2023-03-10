@@ -80,6 +80,7 @@ public class Main {
                 ))
                 .setNameAndDescription("uploadpdf", "Save your PDF")
                 .setOptions(SlashCommandOption.createAttachmentOption("pdf", "The pdf file you want to save", true))
+                .setOptions(SlashCommandOption.createStringOption("description", "Describe your file in 50 characters", true ))
                 .buildSlashCommand();
         commandBuilder.createGlobalCommandFor(discordApi)
                 .setHandler(new FileCommandHandler(metadataDAO))

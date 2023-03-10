@@ -4,28 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="feat: bot já consegue enviar arquivos salvados e apresenta suporte básico para paginação de arquivos existentes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/constants/Pagination.java" afterDir="false" />
+    <list default="true" id="2ce64dca-7026-44fe-a964-e49fce060f4d" name="Changes" comment="feat: refatorando">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fly.toml" beforeDir="false" afterPath="$PROJECT_DIR$/fly.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lionpdfdb.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logo_esquema_de_cores.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/builders/CommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/builders/CommandBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/contracts/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/contracts/PDFAttachmentUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/contracts/PDFAttachmentUploader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/MetadataDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/daos/MetadataDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/DownloadFailedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/DownloadFailedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/HasUserFriendlyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/contracts/HasUserFriendlyMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/UploadPDFException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/errors/UploadPDFException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/database/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/DiscordCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/DiscordCommandHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/FileCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/FileCommandHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/FileOptionsMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/FileOptionsMessageHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlers/UploadCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/MetadataBookService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentDownloader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFAttachmentUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/contracts/PDFAttachmentUploader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFUploaderDropbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFUploaderDropbox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/handlersDependecy/PDFValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/model/MetadataBook.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/model/Metadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/discord/bot/lionbot/model/Metadata.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,17 +36,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LionBot" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LionBot" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -94,7 +75,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.30804598&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -242,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678061974446</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: refatorando">
+      <created>1678102173481</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678102173481</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -277,7 +265,8 @@
     <MESSAGE value="Adding the folder .idea" />
     <MESSAGE value="feat: salvando dados sobre o arquivo num db local" />
     <MESSAGE value="feat: adicionando logs" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: adicionando logs" />
+    <MESSAGE value="feat: refatorando" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: refatorando" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LionBot$Main.ic" NAME="Main Coverage Results" MODIFIED="1677561880686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

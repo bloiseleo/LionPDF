@@ -25,16 +25,15 @@ public class UploadCommandHandler extends DiscordCommandHandler {
     public void handle(Interaction interaction) throws IllegalAccessException {
         super.handle(interaction);
         SlashCommandInteraction commandInteraction = this.getCommandInteraction(interaction);
-        Optional<SlashCommandInteractionOption> optionalPdfOption = commandInteraction.getOptionByName("pdf");
-        if(optionalPdfOption.isEmpty()) {
+        SlashCommandInteractionOption optionalPdfOption = (SlashCommandInteractionOption) extractSlashCommandInteraction(commandInteraction, "pdf");
+        if(optionalPdfOption == null) {
             Main.getLogger().warning("pdf option was not provided - Optional<SlashCommandInteractionOption>");
             commandInteraction.createImmediateResponder()
                     .append("You should attach a PDF file to use this command")
                     .respond();
             return;
         }
-        SlashCommandInteractionOption pdfOption = optionalPdfOption.get();
-        Optional<Attachment> optionalPdf = pdfOption.getAttachmentValue();
+        Optional<Attachment> optionalPdf = optionalPdfOption.getAttachmentValue();
         if (optionalPdf.isEmpty()) {
             Main.getLogger().warning("pdf option was not provided -  Optional<Attachment>");
             commandInteraction.createImmediateResponder()
@@ -43,6 +42,21 @@ public class UploadCommandHandler extends DiscordCommandHandler {
             return;
         }
         Attachment pdf = optionalPdf.get();
+        SlashCommandInteractionOption descriptionOption = (SlashCommandInteractionOption) extractSlashCommandInteraction(commandInteraction, "description");
+        if(descriptionOption == null) {
+            Main.getLogger().warning("Description option was not provided");
+            commandInteraction.createImmediateResponder()
+                    .append("You should determine a description for your file")
+                    .respond();
+            return;
+        }
+        String description = descriptionOption.getStringValue().get();
+        if(description.length() < 3 || description.length() > 50) {
+            commandInteraction.createImmediateResponder()
+                    .append("Description must have 3 to 50 charcters")
+                    .respond();
+            return;
+        }
         commandInteraction.createImmediateResponder().append("Your file is being validated and uploaded to our servers. We will notify you when it's completed")
                 .respond()
                 .join();
@@ -53,7 +67,7 @@ public class UploadCommandHandler extends DiscordCommandHandler {
             User user = commandInteraction.getUser();
             try {
                 this.pdfValidator.validate(pdf);
-                this.uploader.upload(pdf);
+                this.uploader.upload(pdf, description);
                 user.sendMessage(
                         new UpdateAboutFileUploadEmbedMessage("File Upload Status :)", "The upload of file " + pdf.getFileName() + " was a SUCCESS! NAILED IT!")
                                 .get()

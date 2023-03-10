@@ -1,11 +1,10 @@
 package discord.bot.lionbot.handlers;
 
 import discord.bot.lionbot.Main;
-import org.javacord.api.interaction.Interaction;
-import org.javacord.api.interaction.MessageComponentInteraction;
-import org.javacord.api.interaction.SelectMenuInteraction;
-import org.javacord.api.interaction.SlashCommandInteraction;
+import org.javacord.api.entity.Attachment;
+import org.javacord.api.interaction.*;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public abstract class DiscordCommandHandler {
@@ -52,5 +51,13 @@ public abstract class DiscordCommandHandler {
     protected void processAsync(Runnable runnable) {
         Thread process = new Thread(runnable);
         process.start();
+    }
+
+    protected Object extractSlashCommandInteraction(SlashCommandInteraction commandInteraction, String optionName) {
+        Optional<SlashCommandInteractionOption> optionalOption = commandInteraction.getOptionByName(optionName);
+        if(optionalOption.isEmpty()) {
+            return null;
+        }
+        return optionalOption.get();
     }
 }

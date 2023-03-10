@@ -14,7 +14,7 @@ public final class PDFUploaderDropbox implements PDFAttachmentUploader {
     }
 
     @Override
-    public void upload(Attachment pdf) throws UploadError {
+    public void upload(Attachment pdf, String description) throws UploadError {
         this.dropboxAPI.upload(pdf);
     }
 }

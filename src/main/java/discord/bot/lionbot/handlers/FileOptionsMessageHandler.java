@@ -25,7 +25,7 @@ public class FileOptionsMessageHandler extends DiscordCommandHandler{
                 SelectMenuOption.create(
                         "Name: " + item.getName(),
                         String.format("%d", item.getId()),
-                        "Click here to download this file"
+                        item.getDescription()
                 )
         );
         List<SelectMenuOption> newListSelectOption = paginationService.continueOldList(possibleFiles);

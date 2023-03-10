@@ -49,7 +49,8 @@ public class Database {
         Main.getLogger().finest("CREATING DATABASE TO SAVE INFO");
         String createMetadadosTable = "CREATE TABLE IF NOT EXISTS metadados (" +
                 "fullpath TEXT NOT NULL," +
-                "name TEXT NOT NULL" +
+                "name TEXT NOT NULL," +
+                "description TEXT NOT NULL" +
                 ")";
         Statement stmt = conn.createStatement();
         stmt.execute(createMetadadosTable);

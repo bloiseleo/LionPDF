@@ -4,10 +4,20 @@ public class Metadata {
     private int id = -1;
     private String fullpath;
     private String name;
+    private String description;
     public Metadata() {}
-    public Metadata(String fullpath, String name) {
+    public Metadata(String fullpath, String name, String description) {
         setFullpath(fullpath);
         setName(name);
+        setDescription(description);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getName() {

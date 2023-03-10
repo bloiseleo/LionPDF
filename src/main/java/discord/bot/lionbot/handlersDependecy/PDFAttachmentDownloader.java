@@ -49,10 +49,10 @@ public class PDFAttachmentDownloader implements PDFAttachmentUploader {
         return new byte[size];
     }
     @Override
-    public void upload(Attachment pdf) throws UploadError {
+    public void upload(Attachment pdf, String description) throws UploadError {
         File pdfFile = this.download(pdf);
         this.metadataDAO.save(
-                new Metadata(pdfFile.getAbsolutePath(), pdfFile.getName())
+                new Metadata(pdfFile.getAbsolutePath(), pdfFile.getName(), description)
         );
     }
 }

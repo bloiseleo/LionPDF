@@ -23,10 +23,11 @@ public class MetadataDAO implements DAO<Metadata> {
 
     @Override
     public void save(Metadata data) {
-        String sql = "INSERT INTO metadados(fullpath, name) VALUES(?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        String sql = "INSERT INTO metadados(fullpath, name, description) VALUES(?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql)) {
             preparedStatement.setString(1, data.getFullpath());
             preparedStatement.setString(2, data.getName());
+            preparedStatement.setString(3, data.getDescription());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             throw new RuntimeException(exception.getMessage());
@@ -35,11 +36,11 @@ public class MetadataDAO implements DAO<Metadata> {
 
     @Override
     public Metadata get(int id) {
-        String sql = "SELECT rowid, name, fullpath FROM metadados WHERE rowid = ?";
+        String sql = "SELECT rowid, name, fullpath, description FROM metadados WHERE rowid = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Metadata metadata = new Metadata(resultSet.getString("fullpath"), resultSet.getString("name"));
+            Metadata metadata = new Metadata(resultSet.getString("fullpath"), resultSet.getString("name"), resultSet.getString("description"));
             metadata.setId(resultSet.getInt("rowid"));
             return metadata;
         }catch (SQLException exception) {
@@ -49,21 +50,19 @@ public class MetadataDAO implements DAO<Metadata> {
 
     @Override
     public List<Metadata> listItemsPaginated(int from, int to) {
-        String sql = "SELECT rowid, name, fullpath FROM metadados WHERE rowid BETWEEN ? AND ?";
+        String sql = "SELECT rowid, name, fullpath, description FROM metadados WHERE rowid BETWEEN ? AND ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, from);
             preparedStatement.setInt(2, to);
-            System.out.println(preparedStatement.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Metadata> metadados = new ArrayList<>();
             while (resultSet.next()) {
                 int id = resultSet.getInt("rowid");
                 String name = resultSet.getString("name");
                 String fullpath = resultSet.getString("fullpath");
-                Metadata metadata = new Metadata();
+                String description = resultSet.getString("description");
+                Metadata metadata = new Metadata(fullpath, name, description);
                 metadata.setId(id);
-                metadata.setName(name);
-                metadata.setFullpath(fullpath);
                 metadados.add(metadata);
             }
             return metadados;
